@@ -57,5 +57,5 @@ This project is designed to help you understand:
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/yourusername/todo-redux-ts.git
+git clone https://github.com/chuks2274/todo-redux-ts.git
 cd todo-redux-ts
