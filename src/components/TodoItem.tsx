@@ -1,6 +1,6 @@
 import React, { useState } from "react"; // Import React and useState hook for component-level state
 import { useDispatch } from "react-redux"; // Import useDispatch to send actions to Redux store
-//Import actions and Todo type from todosSlice
+// Import actions and Todo type from todosSlice
 // toggleTodo → toggle completed status
 // deleteTodo → remove a todo
 // editTodo → update a todo's text
@@ -29,50 +29,68 @@ export default function TodoItem({ todo }: { todo: Todo }) {
       dispatch(editTodo({ id: todo.id, newText: trimmed }));
     }
 
-    //  Exit editing mode after saving
+    // Reset edit mode back to false (fixes "stuck in edit mode" issue)
     setIsEditing(false);
   };
 
+  // Function to enter edit mode and set text
+  const handleEditClick = () => {
+    setEditText(todo.text); // ensure latest text is in input
+    setIsEditing(true); // switch to edit mode
+  };
+
   return (
-    //  Each todo is a list item
+    // Each todo is a list item
     <li className="todo-item">
-      <label>
-        {/*  Checkbox toggles completion status */}
+      <label className="todo-label">
+        {/* Checkbox toggles completion status */}
         <input
           type="checkbox"
           checked={todo.completed} // bind to todo.completed
           onChange={() => dispatch(toggleTodo(todo.id))} // dispatch toggle action
         />
 
-        {/*  Conditional rendering: show input if editing, otherwise span */}
+        {/* Conditional rendering: show input if editing, otherwise span */}
         {isEditing ? (
           <input
             value={editText} // bind input to editText state
             onChange={(e) => setEditText(e.target.value)} // update editText on change
-            onBlur={handleSave} // save when input loses focus
-            onKeyDown={(e) => e.key === "Enter" && handleSave()} // save on Enter key
+            onKeyDown={(e) => {
+              if (e.key === "Enter") handleSave(); // save on Enter key
+              if (e.key === "Escape") setIsEditing(false); // cancel edit on Escape
+            }}
             autoFocus // automatically focus input when editing starts
+            className="todo-edit-input"
           />
         ) : (
           <span
             className={todo.completed ? "completed" : ""} // line-through if completed
-            onDoubleClick={() => setIsEditing(true)} // double click to edit
+            onDoubleClick={handleEditClick} // double click to edit
           >
             {todo.text} {/* display todo text */}
           </span>
         )}
       </label>
 
-      {/*  Action buttons for editing and deleting */}
-      <div>
+      {/* Action buttons container */}
+      <div className="todo-actions">
         {isEditing ? (
-          <button onClick={handleSave}>Save</button> // Save button during editing
+          <button onClick={handleSave} className="save-button">
+            Save
+          </button> // Save button during editing
         ) : (
-          <button onClick={() => setIsEditing(true)}>Edit</button> // Edit button otherwise
+          <button onClick={handleEditClick} className="edit-button">
+            Edit
+          </button> // Edit button otherwise
         )}
 
-        {/*  Delete button always visible */}
-        <button onClick={() => dispatch(deleteTodo(todo.id))}>Delete</button>
+        {/* Delete button always visible */}
+        <button
+          onClick={() => dispatch(deleteTodo(todo.id))}
+          className="delete-button"
+        >
+          Delete
+        </button>
       </div>
     </li>
   );

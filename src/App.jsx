@@ -28,19 +28,33 @@ export default function App() {
   return (
     // Main container div
     <div className="container">
-      {/* Page heading */}
-      <h1>Todo List (Redux Toolkit + JS)</h1>
+      {/* Header section with centered title and right-aligned theme button */}
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          marginBottom: "1.5rem",
+        }}
+      >
+        {/* Empty div to balance layout (keeps title centered) */}
+        <div style={{ width: "100px" }}></div>
 
-      {/* Theme toggle button */}
-      {/* Clicking the button cycles through the three themes */}
-      <button onClick={toggleTheme} className="theme-toggle">
-        {/* Display icon and label depending on current theme */}
-        {theme === "light"
-          ? "☀️ Light"
-          : theme === "dark"
-          ? "🌙 Dark"
-          : "💙 Blue"}
-      </button>
+        {/* Page heading centered */}
+        <h1 style={{ textAlign: "center", flexGrow: 1 }}>
+          Todo List (Redux Toolkit + JS)
+        </h1>
+
+        {/* Theme toggle button aligned to the right */}
+        <button onClick={toggleTheme} className="theme-toggle">
+          {/* Display icon and label depending on current theme */}
+          {theme === "light"
+            ? "☀️ Light"
+            : theme === "dark"
+            ? "🌙 Dark"
+            : "💙 Blue"}
+        </button>
+      </div>
 
       {/* Render the AddTodo form */}
       <AddTodo />

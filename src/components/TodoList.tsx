@@ -1,8 +1,9 @@
-import React, { useState } from 'react';// Import React and useState hook for component-level state
+import React, { useState } from 'react'; // Import React and useState hook for component-level state
 import { useSelector } from 'react-redux'; // Import useSelector hook to access Redux store state
 import type { RootState } from '../store'; // Import RootState type for TypeScript to know the shape of your store
 import TodoItem from './TodoItem'; // Import TodoItem component to render each individual todo
 import type { Todo } from '../features/todos/types'; // Import Todo type to type each todo object
+
 
 // Define filter type for TypeScript
 // Only allows these three string values
@@ -27,25 +28,24 @@ export default function TodoList() {
   if (todos.length === 0) return <p>No todos yet. Add one above.</p>;
 
   return (
-    <div>
+    <div className="todo-list-container">
       {/* Filter buttons section */}
-      <div style={{ marginBottom: '1rem' }}>
+      <div className="filter-buttons">
         {(['All', 'Active', 'Completed'] as Filter[]).map(f => (
           <button
             key={f} // unique key for each filter button
-            className={filter === f ? 'active' : ''} // highlight active filter
+            className={`filter-button ${filter === f ? 'active' : ''}`} // highlight active filter
             onClick={() => setFilter(f)} // change active filter on click
-            style={{ marginRight: '0.5rem' }} // spacing between buttons
           >
             {f} {/* display filter name */}
           </button>
         ))}
       </div>
 
-      {/*  Render list of todos based on current filter */}
+      {/* Render list of todos based on current filter */}
       <ul className="todo-list">
         {filteredTodos.map((todo: Todo) => (
-          //  Render each todo using TodoItem component
+          // Render each todo using TodoItem component
           <TodoItem key={todo.id} todo={todo} />
         ))}
       </ul>

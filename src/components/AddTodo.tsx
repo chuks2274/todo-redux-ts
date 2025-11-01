@@ -1,12 +1,7 @@
 import React, { useState } from 'react'; // Import React and useState hook for managing component-level state
-import { useDispatch } from 'react-redux';// Import the useDispatch hook to send actions to the Redux store
-// Import specific action creators from your todosSlice
-// addTodo → adds a new todo
-// clearCompleted → removes all completed todos
-import { addTodo, clearCompleted } from '../features/todos/todosSlice';
-//Import the typed AppDispatch type for TypeScript safety
-// This ensures dispatch knows what actions are allowed
-import type { AppDispatch } from '../store';
+import { useDispatch } from 'react-redux'; // Import the useDispatch hook to send actions to the Redux store
+import { addTodo, clearCompleted } from '../features/todos/todosSlice'; // Import Redux actions
+import type { AppDispatch } from '../store'; // Typed dispatch for TypeScript safety
 
 // Default exported React functional component
 export default function AddTodo() {
@@ -16,16 +11,14 @@ export default function AddTodo() {
   const [text, setText] = useState('');
 
   // Get the Redux dispatch function, typed with AppDispatch
-  // lets us safely dispatch actions defined in our slice
+  // Lets us safely dispatch actions defined in our slice
   const dispatch = useDispatch<AppDispatch>();
 
   // Handler function when form is submitted
   const handleAdd = (e: React.FormEvent) => {
-    e.preventDefault(); // prevent page reload on form submit
-
-    const trimmed = text.trim(); // remove extra spaces from user input
-
-    if (!trimmed) return; // stop if input is empty (no blank todos)
+    e.preventDefault(); // Prevent page reload on form submit
+    const trimmed = text.trim(); // Remove extra spaces from user input
+    if (!trimmed) return; // Stop if input is empty (no blank todos)
 
     // Dispatch addTodo action to Redux store
     // This will trigger the reducer to add the new todo
@@ -39,25 +32,33 @@ export default function AddTodo() {
   return (
     <div className="add-todo">
       {/* Wrap the input and buttons inside a form element */}
-      {/* Added style to wrap buttons on small screens */}
-      <form onSubmit={handleAdd} style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+      <form className="add-todo-form" onSubmit={handleAdd}>
         {/* Controlled input: React keeps input value in sync with state */}
         <input
-          aria-label="New todo" // accessibility label for screen readers
-          value={text} // input value bound to "text" state
-          onChange={e => setText(e.target.value)} // update text when user types
-          placeholder="What needs to be done?" // hint shown inside input box
-          style={{ flex: '1 1 200px' }} // allow input to shrink/grow for responsiveness
+          aria-label="New todo" // Accessibility label for screen readers
+          value={text} // Input value bound to "text" state
+          onChange={e => setText(e.target.value)} // Update text when user types
+          placeholder="What needs to be done?" // Hint shown inside input box
+          className="add-todo-input" // CSS class for styling
         />
 
-        {/* Submit button adds a new todo when clicked */}
-        <button type="submit">Add</button>
+        {/* Container for buttons */}
+        <div className="add-todo-buttons">
+          {/* Submit button adds a new todo when clicked */}
+          <button type="submit" className="add-button">
+            Add
+          </button>
 
-        {/* Secondary button to clear all completed todos */}
-        {/* type="button" prevents it from submitting the form */}
-        <button type="button" onClick={() => dispatch(clearCompleted())}>
-          Clear completed
-        </button>
+          {/* Secondary button to clear all completed todos */}
+          {/* type="button" prevents it from submitting the form */}
+          <button
+            type="button"
+            onClick={() => dispatch(clearCompleted())}
+            className="clear-button"
+          >
+            Clear Completed
+          </button>
+        </div>
       </form>
     </div>
   );

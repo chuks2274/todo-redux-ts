@@ -1,126 +1,321 @@
 /* =========================================
-   🌟 Global Styles
+   🌟 Global Theme Variables
 ========================================= */
 :root {
-  --bg: #f7f7fb;
-  --text: #111;
-  --card: #fff;
+  --bg: #f7f7fb;      /* Light background color for light mode */
+  --text: #111;       /* Dark text color for light mode */
+  --card: #fff;       /* White background for cards and containers */
 }
 
+/* Dark theme variables */
 [data-theme='dark'] {
-  --bg: #121212;
-  --text: #eee;
-  --card: #1e1e1e;
-}
-/* Blue theme */
-[data-theme='blue'] {
-  --bg: #e0f0ff;      /* light blue background */
-  --text: #003366;    /* dark blue text */
-  --card: #cce6ff;    /* card background */
+  --bg: #121212;      /* Dark gray background for dark mode */
+  --text: #eee;       /* Light text for readability on dark background */
+  --card: #1e1e1e;    /* Slightly lighter gray for cards */
 }
 
+/* Blue theme variables */
+[data-theme='blue'] {
+  --bg: #e0f0ff;      /* Light blue background for blue theme */
+  --text: #003366;    /* Dark blue text for contrast */
+  --card: #cce6ff;    /* Soft blue for card background */
+}
+
+/* =========================================
+   🧍‍♂️ Base Styles
+========================================= */
 body {
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-  padding: 2rem;
-  background: var(--bg);
-  color: var(--text);
-  transition: background 0.3s, color 0.3s;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; /* Clean, modern font stack */
+  padding: 2rem; /* Space around the page content */
+  background: var(--bg); /* Background uses the theme variable */
+  color: var(--text); /* Text color based on theme */
+  transition: background 0.3s, color 0.3s; /* Smooth transition when switching themes */
 }
 
 /* =========================================
    🧩 Layout Container
 ========================================= */
 .container {
-  max-width: 700px;
-  margin: 0 auto;
-  background: var(--card);
-  padding: 1.5rem;
-  border-radius: 8px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  max-width: 700px; /* Limit container width for readability */
+  margin: 0 auto; /* Center container horizontally */
+  background: var(--card); /* Card color based on theme */
+  padding: 1.5rem; /* Inner padding */
+  border-radius: 8px; /* Rounded corners for modern look */
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
 }
 
 /* =========================================
-   ➕ Add Todo Form
+   ➕ Add Todo Form Section
 ========================================= */
-.add-todo form {
-  display: flex;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
+.add-todo {
+  max-width: 700px; /* Match container width */
+  margin: 2rem auto; /* Center and add vertical spacing */
+  padding: 1.5rem 2rem; /* Internal spacing for content */
+  background-color: var(--card); /* Use card background color */
+  border-radius: 12px; /* Smooth rounded corners */
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1); /* Soft shadow */
 }
 
-.add-todo input {
-  flex: 1;
-  padding: 0.6rem;
-  border-radius: 6px;
-  border: 1px solid #ddd;
+/* Flex layout for form */
+.add-todo-form {
+  display: flex; /* Arrange input and buttons side-by-side */
+  flex-wrap: wrap; /* Wrap items on small screens */
+  gap: 0.5rem; /* Space between elements */
+  align-items: center; /* Vertically align items */
 }
 
-.add-todo button {
-  padding: 0.6rem 0.9rem;
+/* Input styling */
+.add-todo-input {
+  flex: 1 1 250px; /* Grow/shrink as needed with min width */
+  padding: 0.8rem 1rem; /* Comfortable padding for typing */
+  border-radius: 8px; /* Rounded corners */
+  border: 1px solid #ccc; /* Light gray border */
+  font-size: 1rem; /* Standard readable text size */
+  outline: none; /* Remove default blue outline */
+  transition: all 0.2s ease; /* Smooth focus animation */
+}
+
+/* Focus state for input */
+.add-todo-input:focus {
+  border-color: #0070f3; /* Blue border on focus */
+  box-shadow: 0 0 5px rgba(0, 112, 243, 0.5); /* Soft blue glow */
+}
+
+/* Buttons container inside form */
+.add-todo-buttons {
+  display: flex; /* Align buttons horizontally */
+  gap: 0.5rem; /* Space between buttons */
+  flex-wrap: wrap; /* Wrap buttons on small screens */
+}
+
+/* Add button */
+.add-button {
+  background-color: #0070f3; /* Bright blue background */
+  color: #fff; /* White text for contrast */
+  border: none; /* No border */
+  padding: 0.6rem 1.2rem; /* Comfortable button padding */
+  border-radius: 8px; /* Rounded button corners */
+  font-weight: 600; /* Bold text */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: background-color 0.2s ease, transform 0.2s ease; /* Smooth hover effect */
+}
+.add-button:hover {
+  background-color: #005bb5; /* Slightly darker blue on hover */
+  transform: translateY(-1px); /* Lift button slightly */
+}
+
+/* Clear Completed button */
+.clear-button {
+  background-color: #e00; /* Red button color */
+  color: #fff; /* White text */
+  border: none; /* No border */
+  padding: 0.6rem 1.2rem; /* Equal padding as Add button */
+  border-radius: 8px; /* Rounded corners */
+  font-weight: 600; /* Bold text */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: background-color 0.2s ease, transform 0.2s ease; /* Smooth hover animation */
+}
+.clear-button:hover {
+  background-color: #b30000; /* Darker red on hover */
+  transform: translateY(-1px); /* Slight lift on hover */
+}
+
+/* Responsive form layout */
+@media (max-width: 480px) {
+  .add-todo-form {
+    flex-direction: column; /* Stack form elements vertically */
+    gap: 1rem; /* Add more space between items */
+  }
+  .add-todo-buttons {
+    flex-direction: column; /* Stack buttons vertically */
+  }
+  .add-button,
+  .clear-button {
+    width: 100%; /* Full width buttons on mobile */
+  }
 }
 
 /* =========================================
-   📋 Todo List Items
+   📋 Todo List & Items
 ========================================= */
 .todo-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+  list-style: none; /* Remove default bullets */
+  padding: 0; /* Remove padding */
+  margin: 0; /* Remove margin */
 }
 
+/* Each todo item */
 .todo-item {
-  display: flex;
-  justify-content: space-between;
-  padding: 0.6rem 0;
-  border-bottom: 1px solid #eee;
+  display: flex; /* Arrange checkbox, text, and buttons horizontally */
+  justify-content: space-between; /* Push actions to the right */
+  align-items: center; /* Vertically center items */
+  padding: 0.75rem 1rem; /* Inner spacing */
+  border-bottom: 1px solid #ccc; /* Separator line */
+  gap: 0.5rem; /* Space between elements */
+  word-break: break-word; /* Prevent overflow text */
 }
 
-.todo-item label {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
+/* Checkbox + text container */
+.todo-label {
+  display: flex; /* Align checkbox and text inline */
+  align-items: center; /* Vertically centered */
+  gap: 0.5rem; /* Space between checkbox and label */
+  flex: 1; /* Take available space */
+  min-width: 0; /* Prevent overflow issues */
 }
 
+/* Input for editing todos */
+.todo-edit-input {
+  flex: 1; /* Fill remaining space */
+  padding: 0.5rem 0.75rem; /* Comfortable padding */
+  border-radius: 8px; /* Rounded corners */
+  border: 1px solid #ccc; /* Light border */
+  font-size: 1rem; /* Readable size */
+  outline: none; /* Remove default outline */
+  transition: border-color 0.2s ease, box-shadow 0.2s ease; /* Smooth focus transition */
+}
+.todo-edit-input:focus {
+  border-color: #0070f3; /* Blue border on focus */
+  box-shadow: 0 0 5px rgba(0, 112, 243, 0.5); /* Blue glow on focus */
+}
+
+/* Completed todos styling */
 .completed {
-  text-decoration: line-through;
-  color: #888;
+  text-decoration: line-through; /* Strike through completed items */
+  color: #888; /* Gray out completed text */
+}
+
+/* Action buttons for todo items */
+.todo-actions {
+  display: flex; /* Align buttons horizontally */
+  gap: 0.5rem; /* Space between buttons */
+  flex-shrink: 0; /* Prevent shrinking on small screens */
+}
+
+/* Save button */
+.save-button {
+  background-color: #28a745; /* Green button */
+  color: #fff; /* White text */
+  border: none; /* No border */
+  padding: 0.5rem 1rem; /* Button padding */
+  border-radius: 8px; /* Rounded edges */
+  font-weight: 600; /* Bold text */
+  cursor: pointer; /* Pointer cursor */
+  transition: background-color 0.2s ease, transform 0.2s ease; /* Smooth hover */
+}
+.save-button:hover {
+  background-color: #1e7e34; /* Darker green on hover */
+  transform: translateY(-1px); /* Lift on hover */
+}
+
+/* Edit button */
+.edit-button {
+  background-color: #17a2b8; /* Teal background */
+  color: #fff; /* White text */
+  border: none; /* No border */
+  padding: 0.5rem 1rem; /* Button padding */
+  border-radius: 8px; /* Rounded edges */
+  font-weight: 600; /* Bold text */
+  cursor: pointer; /* Pointer cursor */
+  transition: background-color 0.2s ease, transform 0.2s ease; /* Smooth animation */
+}
+.edit-button:hover {
+  background-color: #117a8b; /* Darker teal on hover */
+  transform: translateY(-1px); /* Lift slightly */
+}
+
+/* Delete button */
+.delete-button {
+  background-color: #e00; /* Red delete color */
+  color: #fff; /* White text */
+  border: none; /* No border */
+  padding: 0.5rem 1rem; /* Padding */
+  border-radius: 8px; /* Rounded corners */
+  font-weight: 600; /* Bold text */
+  cursor: pointer; /* Pointer cursor */
+  transition: background-color 0.2s ease, transform 0.2s ease; /* Hover animation */
+}
+.delete-button:hover {
+  background-color: #b30000; /* Darker red hover */
+  transform: translateY(-1px); /* Slight lift */
+}
+
+/* Responsive todo layout */
+@media (max-width: 480px) {
+  .todo-item {
+    flex-direction: column; /* Stack content vertically on mobile */
+    align-items: stretch; /* Stretch to fill container */
+  }
+  .todo-actions {
+    justify-content: flex-end; /* Align buttons to the right */
+    margin-top: 0.5rem; /* Space above actions */
+  }
+  .todo-actions button {
+    width: 100%; /* Full width buttons for mobile */
+  }
 }
 
 /* =========================================
-   🎛️ Buttons & Filters
+   🎛️ Filter Buttons (All / Active / Completed)
 ========================================= */
-button {
-  cursor: pointer;
-  padding: 0.3rem 0.6rem;
-  border-radius: 4px;
-  border: 1px solid #ddd;
-  background-color: #f7f7fb;
-  transition: background-color 0.2s ease;
+.filter-buttons {
+  display: flex; /* Align buttons horizontally */
+  justify-content: center; /* Center them horizontally */
+  align-items: center; /* Vertically align */
+  gap: 0.75rem; /* Space between buttons */
+  margin-bottom: 1.5rem; /* Space below filter section */
 }
 
-button:hover {
-  background-color: #eee;
+.filter-button {
+  background-color: #f4f4f4; /* Light gray background */
+  border: 1px solid #ddd; /* Light border */
+  border-radius: 8px; /* Rounded corners */
+  padding: 0.5rem 1rem; /* Button padding */
+  font-size: 1rem; /* Readable text size */
+  font-weight: 600; /* Bold text */
+  color: #333; /* Dark gray text */
+  cursor: pointer; /* Pointer cursor */
+  transition: all 0.2s ease; /* Smooth hover effect */
 }
 
-button.active {
-  font-weight: bold;
-  background-color: #e0e0e0;
+.filter-button:hover {
+  background-color: #0070f3; /* Blue background on hover */
+  color: #fff; /* White text */
+  border-color: #0070f3; /* Match border color */
+  transform: translateY(-1px); /* Slight lift effect */
+}
+
+.filter-button.active {
+  background-color: #0070f3; /* Blue background for active filter */
+  color: #fff; /* White text */
+  border: 1px solid #0070f3; /* Blue border */
+  box-shadow: 0 0 5px rgba(0, 112, 243, 0.4); /* Glow effect for active state */
+}
+
+/* Responsive filters */
+@media (max-width: 480px) {
+  .filter-buttons {
+    flex-wrap: wrap; /* Allow wrapping on small screens */
+    gap: 0.5rem; /* Adjust spacing */
+  }
+  .filter-button {
+    flex: 1; /* Stretch buttons equally */
+    text-align: center; /* Center button text */
+  }
 }
 
 /* =========================================
    🌗 Theme Toggle Button
 ========================================= */
 .theme-toggle {
-  margin-bottom: 1rem;
-  border: 1px solid #ccc;
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
-  cursor: pointer;
-  background-color: var(--card);
-  color: var(--text);
-  transition: background 0.3s, color 0.3s;
+  border: 1px solid #ccc; /* Light border */
+  padding: 0.5rem 1rem; /* Button padding */
+  border-radius: 6px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor */
+  background-color: var(--card); /* Theme-based background */
+  color: var(--text); /* Theme-based text */
+  transition: background 0.3s, color 0.3s; /* Smooth color transitions */
 }
-
 .theme-toggle:hover {
-  background-color: #e0e0e0;
+  background-color: #e0e0e0; /* Light gray hover background */
 }
