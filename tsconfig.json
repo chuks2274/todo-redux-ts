@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",                // Use ESNext for modern syntax
+    "module": "ESNext",                // Keep ESNext for ESM compatibility
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "jsx": "react-jsx",                // JSX support
+    "strict": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true,           // Recommended for Vite + TS + ESM
+    "resolveJsonModule": true          // If you import JSON files
+  },
+  "include": ["src", "__tests__"]      // Include test folder
+}

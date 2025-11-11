@@ -1,321 +1,940 @@
 /* =========================================
-   🌟 Global Theme Variables
+   VARIABLES & THEMES
 ========================================= */
 :root {
-  --bg: #f7f7fb;      /* Light background color for light mode */
-  --text: #111;       /* Dark text color for light mode */
-  --card: #fff;       /* White background for cards and containers */
+  /* Light theme (default) */
+  --bg-color: #f8f9fa;
+  --text-color: #343a40;
+  --primary-color: #007bff;
+  --secondary-color: #6c757d;
+  --todo-bg: #ffffff;
+  --bg-card: #f8f9fa;
 }
 
-/* Dark theme variables */
-[data-theme='dark'] {
-  --bg: #121212;      /* Dark gray background for dark mode */
-  --text: #eee;       /* Light text for readability on dark background */
-  --card: #1e1e1e;    /* Slightly lighter gray for cards */
+/* Dark theme */
+[data-theme="dark"] {
+  --bg-color: #121212;
+  --text-color: #f8f9fa;
+  --primary-color: #17a2b8;
+  --secondary-color: #adb5bd;
+  --todo-bg: #1e1e1e;
+  --bg-card: #1e1e1e;
 }
 
-/* Blue theme variables */
-[data-theme='blue'] {
-  --bg: #e0f0ff;      /* Light blue background for blue theme */
-  --text: #003366;    /* Dark blue text for contrast */
-  --card: #cce6ff;    /* Soft blue for card background */
+/* Blue theme */
+[data-theme="blue"] {
+  --bg-color: #e3f2fd;
+  --text-color: #0d6efd;
+  --primary-color: #0d6efd;
+  --secondary-color: #6c757d;
+  --todo-bg: #ffffff;
+  --bg-card: #ffffff;
 }
 
 /* =========================================
-   🧍‍♂️ Base Styles
+   BODY & GLOBAL
 ========================================= */
 body {
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; /* Clean, modern font stack */
-  padding: 2rem; /* Space around the page content */
-  background: var(--bg); /* Background uses the theme variable */
-  color: var(--text); /* Text color based on theme */
-  transition: background 0.3s, color 0.3s; /* Smooth transition when switching themes */
+  font-family: 'Poppins', 'Segoe UI', sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  margin: 0;
+  padding: 0;
 }
 
-/* =========================================
-   🧩 Layout Container
-========================================= */
 .container {
-  max-width: 700px; /* Limit container width for readability */
-  margin: 0 auto; /* Center container horizontally */
-  background: var(--card); /* Card color based on theme */
-  padding: 1.5rem; /* Inner padding */
-  border-radius: 8px; /* Rounded corners for modern look */
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  max-width: 700px;
+  margin: 50px auto;
+  padding: 20px;
+  background: var(--todo-bg);
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-weight: 600;
+  color: var(--primary-color);
 }
 
 /* =========================================
-   ➕ Add Todo Form Section
+   NAVBAR
 ========================================= */
-.add-todo {
-  max-width: 700px; /* Match container width */
-  margin: 2rem auto; /* Center and add vertical spacing */
-  padding: 1.5rem 2rem; /* Internal spacing for content */
-  background-color: var(--card); /* Use card background color */
-  border-radius: 12px; /* Smooth rounded corners */
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1); /* Soft shadow */
+.navbar {
+  background-color: var(--primary-color);
+  padding: 10px 20px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #fff;
+  margin-bottom: 30px;
 }
 
-/* Flex layout for form */
+.navbar a {
+  color: #fff;
+  margin-left: 15px;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.navbar a:hover {
+  text-decoration: underline;
+}
+
+.theme-buttons button {
+  margin-right: 5px;
+}
+
+/* =========================================
+   ADD TODO FORM
+========================================= */
 .add-todo-form {
-  display: flex; /* Arrange input and buttons side-by-side */
-  flex-wrap: wrap; /* Wrap items on small screens */
-  gap: 0.5rem; /* Space between elements */
-  align-items: center; /* Vertically align items */
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
 }
 
-/* Input styling */
-.add-todo-input {
-  flex: 1 1 250px; /* Grow/shrink as needed with min width */
-  padding: 0.8rem 1rem; /* Comfortable padding for typing */
-  border-radius: 8px; /* Rounded corners */
-  border: 1px solid #ccc; /* Light gray border */
-  font-size: 1rem; /* Standard readable text size */
-  outline: none; /* Remove default blue outline */
-  transition: all 0.2s ease; /* Smooth focus animation */
+.add-todo-form input,
+.add-todo-form textarea {
+  flex: 1;
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: 1px solid #ced4da;
+  transition: all 0.3s ease;
 }
 
-/* Focus state for input */
-.add-todo-input:focus {
-  border-color: #0070f3; /* Blue border on focus */
-  box-shadow: 0 0 5px rgba(0, 112, 243, 0.5); /* Soft blue glow */
+.add-todo-form input:focus,
+.add-todo-form textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 5px rgba(0,123,255,0.3);
 }
 
-/* Buttons container inside form */
-.add-todo-buttons {
-  display: flex; /* Align buttons horizontally */
-  gap: 0.5rem; /* Space between buttons */
-  flex-wrap: wrap; /* Wrap buttons on small screens */
-}
-
-/* Add button */
-.add-button {
-  background-color: #0070f3; /* Bright blue background */
-  color: #fff; /* White text for contrast */
-  border: none; /* No border */
-  padding: 0.6rem 1.2rem; /* Comfortable button padding */
-  border-radius: 8px; /* Rounded button corners */
-  font-weight: 600; /* Bold text */
-  cursor: pointer; /* Pointer cursor on hover */
-  transition: background-color 0.2s ease, transform 0.2s ease; /* Smooth hover effect */
-}
-.add-button:hover {
-  background-color: #005bb5; /* Slightly darker blue on hover */
-  transform: translateY(-1px); /* Lift button slightly */
-}
-
-/* Clear Completed button */
+.add-button,
 .clear-button {
-  background-color: #e00; /* Red button color */
-  color: #fff; /* White text */
-  border: none; /* No border */
-  padding: 0.6rem 1.2rem; /* Equal padding as Add button */
-  border-radius: 8px; /* Rounded corners */
-  font-weight: 600; /* Bold text */
-  cursor: pointer; /* Pointer cursor on hover */
-  transition: background-color 0.2s ease, transform 0.2s ease; /* Smooth hover animation */
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: #fff;
 }
+
+.add-button {
+  background-color: var(--primary-color);
+}
+
+.add-button:hover {
+  background-color: #0056b3;
+}
+
+.clear-button {
+  background-color: #dc3545;
+}
+
 .clear-button:hover {
-  background-color: #b30000; /* Darker red on hover */
-  transform: translateY(-1px); /* Slight lift on hover */
-}
-
-/* Responsive form layout */
-@media (max-width: 480px) {
-  .add-todo-form {
-    flex-direction: column; /* Stack form elements vertically */
-    gap: 1rem; /* Add more space between items */
-  }
-  .add-todo-buttons {
-    flex-direction: column; /* Stack buttons vertically */
-  }
-  .add-button,
-  .clear-button {
-    width: 100%; /* Full width buttons on mobile */
-  }
+  background-color: #a71d2a;
 }
 
 /* =========================================
-   📋 Todo List & Items
+   KANBAN BOARD
 ========================================= */
-.todo-list {
-  list-style: none; /* Remove default bullets */
-  padding: 0; /* Remove padding */
-  margin: 0; /* Remove margin */
+.kanban-board {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
 }
 
-/* Each todo item */
+.todo-column {
+  flex: 1;
+  background-color: var(--todo-bg);
+  padding: 10px;
+  border-radius: 12px;
+  min-height: 400px;
+}
+
+.todo-column h3 {
+  text-align: center;
+}
+
+/* =========================================
+   TODO ITEM
+========================================= */
 .todo-item {
-  display: flex; /* Arrange checkbox, text, and buttons horizontally */
-  justify-content: space-between; /* Push actions to the right */
-  align-items: center; /* Vertically center items */
-  padding: 0.75rem 1rem; /* Inner spacing */
-  border-bottom: 1px solid #ccc; /* Separator line */
-  gap: 0.5rem; /* Space between elements */
-  word-break: break-word; /* Prevent overflow text */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  background-color: var(--bg-card);
+  padding: 1rem;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  transition: transform 0.2s;
 }
 
-/* Checkbox + text container */
-.todo-label {
-  display: flex; /* Align checkbox and text inline */
-  align-items: center; /* Vertically centered */
-  gap: 0.5rem; /* Space between checkbox and label */
-  flex: 1; /* Take available space */
-  min-width: 0; /* Prevent overflow issues */
+.todo-item:hover {
+  transform: translateY(-2px);
 }
 
-/* Input for editing todos */
-.todo-edit-input {
-  flex: 1; /* Fill remaining space */
-  padding: 0.5rem 0.75rem; /* Comfortable padding */
-  border-radius: 8px; /* Rounded corners */
-  border: 1px solid #ccc; /* Light border */
-  font-size: 1rem; /* Readable size */
-  outline: none; /* Remove default outline */
-  transition: border-color 0.2s ease, box-shadow 0.2s ease; /* Smooth focus transition */
-}
-.todo-edit-input:focus {
-  border-color: #0070f3; /* Blue border on focus */
-  box-shadow: 0 0 5px rgba(0, 112, 243, 0.5); /* Blue glow on focus */
+.todo-item.pending {
+  border-left: 4px solid #ffc107;
 }
 
-/* Completed todos styling */
-.completed {
-  text-decoration: line-through; /* Strike through completed items */
-  color: #888; /* Gray out completed text */
+.todo-item.in-process {
+  border-left: 4px solid #17a2b8;
 }
 
-/* Action buttons for todo items */
+.todo-item.completed {
+  border-left: 4px solid #28a745;
+  text-decoration: line-through;
+  opacity: 0.7;
+}
+
+.todo-title {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.todo-description {
+  margin-bottom: 0.5rem;
+  color: #555;
+}
+
+.todo-date {
+  font-size: 0.8rem;
+  color: var(--text-color);
+  margin-left: 0;
+}
+
 .todo-actions {
-  display: flex; /* Align buttons horizontally */
-  gap: 0.5rem; /* Space between buttons */
-  flex-shrink: 0; /* Prevent shrinking on small screens */
+  display: flex;
+  align-items: center;
+  margin-top: 5px;
 }
 
-/* Save button */
-.save-button {
-  background-color: #28a745; /* Green button */
-  color: #fff; /* White text */
-  border: none; /* No border */
-  padding: 0.5rem 1rem; /* Button padding */
-  border-radius: 8px; /* Rounded edges */
-  font-weight: 600; /* Bold text */
-  cursor: pointer; /* Pointer cursor */
-  transition: background-color 0.2s ease, transform 0.2s ease; /* Smooth hover */
-}
-.save-button:hover {
-  background-color: #1e7e34; /* Darker green on hover */
-  transform: translateY(-1px); /* Lift on hover */
+.todo-actions select {
+  width: 120px;
+  margin-right: 5px;
 }
 
-/* Edit button */
-.edit-button {
-  background-color: #17a2b8; /* Teal background */
-  color: #fff; /* White text */
-  border: none; /* No border */
-  padding: 0.5rem 1rem; /* Button padding */
-  border-radius: 8px; /* Rounded edges */
-  font-weight: 600; /* Bold text */
-  cursor: pointer; /* Pointer cursor */
-  transition: background-color 0.2s ease, transform 0.2s ease; /* Smooth animation */
-}
-.edit-button:hover {
-  background-color: #117a8b; /* Darker teal on hover */
-  transform: translateY(-1px); /* Lift slightly */
-}
-
-/* Delete button */
-.delete-button {
-  background-color: #e00; /* Red delete color */
-  color: #fff; /* White text */
-  border: none; /* No border */
-  padding: 0.5rem 1rem; /* Padding */
-  border-radius: 8px; /* Rounded corners */
-  font-weight: 600; /* Bold text */
-  cursor: pointer; /* Pointer cursor */
-  transition: background-color 0.2s ease, transform 0.2s ease; /* Hover animation */
-}
-.delete-button:hover {
-  background-color: #b30000; /* Darker red hover */
-  transform: translateY(-1px); /* Slight lift */
-}
-
-/* Responsive todo layout */
-@media (max-width: 480px) {
-  .todo-item {
-    flex-direction: column; /* Stack content vertically on mobile */
-    align-items: stretch; /* Stretch to fill container */
-  }
-  .todo-actions {
-    justify-content: flex-end; /* Align buttons to the right */
-    margin-top: 0.5rem; /* Space above actions */
-  }
-  .todo-actions button {
-    width: 100%; /* Full width buttons for mobile */
-  }
+.todo-actions button {
+  min-width: 70px;
+  margin-left: 5px;
 }
 
 /* =========================================
-   🎛️ Filter Buttons (All / Active / Completed)
+   BUTTONS
 ========================================= */
-.filter-buttons {
-  display: flex; /* Align buttons horizontally */
-  justify-content: center; /* Center them horizontally */
-  align-items: center; /* Vertically align */
-  gap: 0.75rem; /* Space between buttons */
-  margin-bottom: 1.5rem; /* Space below filter section */
+.btn-primary {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
 }
 
-.filter-button {
-  background-color: #f4f4f4; /* Light gray background */
-  border: 1px solid #ddd; /* Light border */
-  border-radius: 8px; /* Rounded corners */
-  padding: 0.5rem 1rem; /* Button padding */
-  font-size: 1rem; /* Readable text size */
-  font-weight: 600; /* Bold text */
-  color: #333; /* Dark gray text */
-  cursor: pointer; /* Pointer cursor */
-  transition: all 0.2s ease; /* Smooth hover effect */
+.btn-primary:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
 }
 
-.filter-button:hover {
-  background-color: #0070f3; /* Blue background on hover */
-  color: #fff; /* White text */
-  border-color: #0070f3; /* Match border color */
-  transform: translateY(-1px); /* Slight lift effect */
+.btn-danger {
+  background-color: #dc3545;
+  border-color: #dc3545;
 }
 
-.filter-button.active {
-  background-color: #0070f3; /* Blue background for active filter */
-  color: #fff; /* White text */
-  border: 1px solid #0070f3; /* Blue border */
-  box-shadow: 0 0 5px rgba(0, 112, 243, 0.4); /* Glow effect for active state */
-}
-
-/* Responsive filters */
-@media (max-width: 480px) {
-  .filter-buttons {
-    flex-wrap: wrap; /* Allow wrapping on small screens */
-    gap: 0.5rem; /* Adjust spacing */
-  }
-  .filter-button {
-    flex: 1; /* Stretch buttons equally */
-    text-align: center; /* Center button text */
-  }
+.btn-danger:hover {
+  background-color: #a71d2a;
+  border-color: #a71d2a;
 }
 
 /* =========================================
-   🌗 Theme Toggle Button
+   EDIT FORM IN MODAL
 ========================================= */
-.theme-toggle {
-  border: 1px solid #ccc; /* Light border */
-  padding: 0.5rem 1rem; /* Button padding */
-  border-radius: 6px; /* Rounded corners */
-  cursor: pointer; /* Pointer cursor */
-  background-color: var(--card); /* Theme-based background */
-  color: var(--text); /* Theme-based text */
-  transition: background 0.3s, color 0.3s; /* Smooth color transitions */
+.edit-form input,
+.edit-form textarea {
+  margin-bottom: 5px;
 }
-.theme-toggle:hover {
-  background-color: #e0e0e0; /* Light gray hover background */
+
+/* Icon rotation */
+.theme-icon.animate-icon {
+  transform: rotate(360deg);
+  transition: transform 0.5s ease;
 }
+
+/* Optional: smooth text fade */
+.theme-label {
+  display: inline-block;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+
+
+
+
+/* =========================================
+   NAVBAR STYLES
+========================================= */
+
+.navbar {
+  padding: 0.5rem 1rem !important;
+  border-radius: 0.75rem !important;
+  transition: all 0.3s ease;
+}
+
+/* Brand - stays on the far left */
+.navbar-brand {
+  color: #222 !important;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* Navbar container centers content and limits width */
+.navbar .container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Links aligned neatly on right side */
+.navbar-nav .nav-link {
+  color: #333 !important;
+  font-weight: 500;
+  margin-right: 0.8rem;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.navbar-nav .nav-link:hover {
+  color: #0d6efd !important;
+  transform: translateY(-1px);
+}
+
+/* Theme toggle button spacing and hover */
+.theme-btn {
+  margin-left: 0.8rem;
+  border: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.theme-btn:hover {
+  transform: scale(1.05);
+}
+
+/* Animate theme icon rotation */
+.animate-icon .theme-icon-wrapper {
+  transform: rotate(360deg);
+  transition: transform 0.5s ease;
+}
+
+/* For smaller screens (collapse mode) */
+@media (max-width: 991px) {
+  .navbar {
+    padding: 0.75rem 1rem !important;
+  }
+
+  .navbar-nav {
+    text-align: center;
+  }
+
+  .navbar-nav .nav-item {
+    margin-bottom: 0.5rem;
+  }
+
+  .theme-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* ===== Navbar Layout Fix ===== */
+.navbar {
+  padding: 0.5rem 1rem;
+}
+
+.navbar .navbar-brand {
+  font-weight: 600;
+}
+
+.navbar .navbar-nav .nav-link {
+  font-weight: 500;
+  margin-left: 0.5rem;
+  transition: color 0.3s ease;
+}
+
+/* Ensure the brand stays on the left and links on the right */
+.navbar .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* ===== Theme Colors ===== */
+
+/* Light mode (default) */
+[data-theme='light'] .navbar {
+  background-color: #ffffff !important;
+  color: #212529;
+}
+
+[data-theme='light'] .navbar .navbar-brand,
+[data-theme='light'] .navbar .nav-link {
+  color: #212529 !important;
+}
+
+/* Dark mode */
+[data-theme='dark'] .navbar {
+  background-color: #212529 !important;
+}
+
+[data-theme='dark'] .navbar .navbar-brand,
+[data-theme='dark'] .navbar .nav-link {
+  color: #ffffff !important;
+}
+
+[data-theme='dark'] .navbar .nav-link:hover {
+  color: #0d6efd !important; /* Subtle blue hover effect */
+}
+
+/* Blue theme */
+[data-theme='blue'] .navbar {
+  background-color: #0d6efd !important;
+}
+
+[data-theme='blue'] .navbar .navbar-brand,
+[data-theme='blue'] .navbar .nav-link {
+  color: #ffffff !important;
+}
+
+/* ===== Optional Aesthetic Tweaks ===== */
+.navbar .theme-btn {
+  border: none;
+}
+
+.theme-icon {
+  margin-right: 6px;
+}
+
+
+
+
+
+/* ===== Navbar Layout Fix ===== */
+.navbar {
+  padding: 0.5rem 1rem;
+}
+
+.navbar .navbar-brand {
+  font-weight: 600;
+}
+
+.navbar .navbar-nav .nav-link {
+  font-weight: 500;
+  margin-left: 0.5rem;
+  transition: color 0.3s ease;
+}
+
+/* Ensure the brand stays on the left and links on the right */
+.navbar .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* ===== Navbar Layout Fix ===== */
+.navbar {
+  padding: 0.5rem 1rem;
+}
+
+.navbar .navbar-brand {
+  font-weight: 600;
+}
+
+.navbar .navbar-nav .nav-link {
+  font-weight: 500;
+  margin-left: 0.5rem;
+  transition: color 0.3s ease;
+}
+
+/* Ensure the brand stays on the left and links on the right */
+.navbar .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* ===== Theme Colors ===== */
+
+/* Light mode (default) */
+[data-theme='light'] .navbar {
+  background-color: #ffffff !important;
+  color: #212529;
+}
+
+[data-theme='light'] .navbar .navbar-brand,
+[data-theme='light'] .navbar .nav-link {
+  color: #212529 !important;
+}
+
+/* Dark mode */
+[data-theme='dark'] .navbar {
+  background-color: #212529 !important;
+}
+
+[data-theme='dark'] .navbar .navbar-brand,
+[data-theme='dark'] .navbar .nav-link {
+  color: #ffffff !important;
+}
+
+[data-theme='dark'] .navbar .nav-link:hover {
+  color: #0d6efd !important; /* Subtle blue hover */
+}
+
+/* Blue mode */
+[data-theme='blue'] .navbar {
+  background-color: #0d6efd !important;
+}
+
+/* Brand and links become black in blue mode */
+[data-theme='blue'] .navbar .navbar-brand,
+[data-theme='blue'] .navbar .nav-link {
+  color: #000000 !important;
+}
+
+[data-theme='blue'] .navbar .nav-link:hover {
+  color: #ffffff !important; /* White on hover */
+}
+
+/* ===== Optional Aesthetic Tweaks ===== */
+.navbar .theme-btn {
+  border: none;
+}
+
+.theme-icon {
+  margin-right: 6px;
+}
+
+
+
+
+
+/* ===== Navbar Layout ===== */
+.navbar {
+  padding: 0.5rem 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.navbar .navbar-brand {
+  font-weight: 600;
+}
+
+.navbar .navbar-nav .nav-link {
+  font-weight: 500;
+  margin-left: 0.75rem;
+  transition: color 0.3s ease, border-bottom 0.3s ease;
+  border-bottom: 2px solid transparent;
+}
+
+.navbar .navbar-nav .nav-link:hover {
+  color: #0a58ca !important; /* blue hover for all themes */
+  border-bottom: 2px solid #0a58ca;
+  text-decoration: none;
+}
+
+/* Brand on left, links on right */
+.navbar .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* ===== Theme Colors ===== */
+
+/* Light mode */
+[data-theme='light'] .navbar {
+  background-color: #ffffff !important;
+  color: #212529;
+}
+
+[data-theme='light'] .navbar .navbar-brand,
+[data-theme='light'] .navbar .nav-link {
+  color: #212529 !important;
+}
+
+/* Dark mode */
+[data-theme='dark'] .navbar {
+  background-color: #212529 !important;
+}
+
+[data-theme='dark'] .navbar .navbar-brand,
+[data-theme='dark'] .navbar .nav-link {
+  color: #ffffff !important;
+}
+
+/* Blue mode */
+[data-theme='blue'] .navbar {
+  background-color: #e0f0ff !important; /* light blue background instead of full blue */
+  color: #000000;
+  border-bottom: 1px solid #bcd6ff;
+}
+
+[data-theme='blue'] .navbar .navbar-brand,
+[data-theme='blue'] .navbar .nav-link {
+  color: #000000 !important; /* readable black text */
+}
+
+[data-theme='blue'] .navbar .nav-link:hover {
+  color: #0a58ca !important; /* darker blue on hover */
+  border-bottom: 2px solid #0a58ca;
+}
+
+/* ===== Theme Button ===== */
+.navbar .theme-btn {
+  border: none;
+}
+
+.theme-icon {
+  margin-right: 6px;
+}
+
+/* Force pure white text for todo items in dark mode */
+.dark-mode-todo,
+.dark-mode-todo h5,
+.dark-mode-todo p,
+.dark-mode-todo small {
+  color: #ffffff !important;
+}
+
+/* Force all text inside dark-mode todos to white */
+.dark-mode-todo,
+.dark-mode-todo h5,
+.dark-mode-todo p,
+.dark-mode-todo small {
+  color: #ffffff !important;
+}
+
+/* Optional: dark background for inputs inside modal */
+.dark-mode-todo input,
+.dark-mode-todo textarea {
+  background-color: #212529 !important; /* dark gray */
+  color: #ffffff !important;
+}
+
+/* Ensure dark mode inputs have white text and dark background */
+.bg-dark {
+  background-color: #212529 !important;
+  color: #ffffff !important;
+}
+
+
+
+
+.profile-container {
+  max-width: 700px;
+  margin: 60px auto;
+  padding: 20px;
+}
+
+.profile-card {
+  border-radius: 20px;
+  background: #ffffff;
+}
+
+.profile-pic {
+  width: 150px;
+  height: 150px;
+  border: 5px solid #007bff;
+  object-fit: cover;
+}
+
+.profile-details p {
+  font-size: 0.95rem;
+}
+
+.skills-section .badge {
+  font-weight: 500;
+  font-size: 0.9rem;
+  border-radius: 12px;
+}
+
+button {
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  transform: translateY(-2px);
+}
+
+@media (max-width: 576px) {
+  .profile-pic {
+    width: 120px;
+    height: 120px;
+  }
+  .profile-container {
+    padding: 10px;
+  }
+}
+
+
+
+/* src/styles/profile.css */
+.profile-container {
+  max-width: 800px;
+  margin: 50px auto;
+  padding: 20px;
+}
+
+.profile-card {
+  border-radius: 12px;
+  background-color: #ffffff;
+}
+
+.profile-pic {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+}
+
+.skills-section .badge {
+  font-size: 0.85rem;
+}
+
+
+/* src/styles/profile.css */
+
+.profile-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  
+  padding: 20px;
+}
+
+.profile-card {
+  width: 100%;
+  max-width: 500px;
+  background-color: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.alert {
+  text-align: center;
+  margin-top: 10px;
+  border-radius: 8px;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.modal-content {
+  background: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  width: 90%;
+  max-width: 400px;
+}
+
+
+
+
+
+/* --- Modal Styles (shared by EditProfileModal and DeleteAccountModal) --- */
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* transparent dark background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1050;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.modal-content {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 25px 30px;
+  width: 90%;
+  max-width: 420px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  animation: slideUp 0.35s ease;
+}
+
+.modal-content h5 {
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.modal-content p {
+  color: #555;
+  font-size: 15px;
+}
+
+.modal-content input.form-control {
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  transition: border-color 0.2s;
+}
+
+.modal-content input.form-control:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.15rem rgba(0, 123, 255, 0.25);
+}
+
+/* Buttons inside modals */
+.modal-content .btn {
+  border-radius: 10px;
+  padding: 8px 18px;
+  transition: all 0.2s ease;
+}
+
+.modal-content .btn:hover {
+  transform: translateY(-1px);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Small screen responsiveness */
+@media (max-width: 500px) {
+  .modal-content {
+    padding: 20px;
+    max-width: 90%;
+  }
+}
+
+
+
+
+
+
+
+/* Clean modal theme for Edit Todo */
+.clean-modal .modal-content {
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  border: none;
+}
+
+.clean-modal-header {
+  background-color: #0d6efd; /* Bootstrap primary blue */
+  color: white;
+  border-bottom: none;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+.clean-modal-header .btn-close {
+  filter: brightness(0) invert(1); /* white close icon */
+}
+
+.clean-modal .modal-footer {
+  border-top: none;
+  padding-top: 0;
+}
+
+.clean-modal .btn-primary {
+  background-color: #0d6efd;
+  border: none;
+  transition: background 0.2s ease;
+}
+
+.clean-modal .btn-primary:hover {
+  background-color: #0b5ed7;
+}
+
+.clean-modal .btn-secondary {
+  background-color: #6c757d;
+  border: none;
+  transition: background 0.2s ease;
+}
+
+.clean-modal .btn-secondary:hover {
+  background-color: #5a6268;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+
+
+ /* src/App.css or a dedicated CSS file */
+.todo-description {
+  font-weight: 500;      /* slightly bolder */
+  color: #6c757d;        /* muted gray for light mode */
+}
+
+/* Bright white only in dark mode */
+@media (prefers-color-scheme: dark) {
+  .todo-description {
+    color: #ffffff;
+  }
+}
+
+
+
+
+
+.about-page {
+  text-align: center;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  font-family: 'Roboto', sans-serif;
+  color: var(--text-color); /* adapts to light/dark/blue themes */
+}
+
+.about-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+
+.about-description {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  color: var(--text-color);
+}
+
+.about-description strong {
+  color: var(--primary-color); /* highlights key tech words */
+}
+
+
+

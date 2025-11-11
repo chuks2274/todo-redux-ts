@@ -1,7 +1,17 @@
-// Define a TypeScript interface for a single Todo item
+// types.ts
+
+// Optional: keep TodoStatus if you want to track different statuses
+export type TodoStatus = 'pending' | 'in-process' | 'completed';
+
 export interface Todo {
-  id: string;          // Unique identifier for each todo (used for updates/deletes)
-  text: string;        // The content or description of the todo
-  completed: boolean;  // Tracks whether the todo is completed (true/false)
-  createdAt: number;   // Timestamp (in milliseconds) when the todo was created
+  id: string;                   // Unique ID
+  title: string;                // Task title
+  description?: string;         // Optional description
+  completed: boolean;           // Whether task is completed
+  status?: TodoStatus;          // Optional status tracking
+  createdAt: number;            // Timestamp when todo was created
+  dueDate: string;              // ISO string for due date/time
+  reminderValue: number;        // Reminder value (number)
+  reminderUnit: 'hours' | 'days'; // Reminder unit
+  alertShown?: boolean;         // To avoid repeated alerts
 }
