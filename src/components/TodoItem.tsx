@@ -1,19 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { removeTodo, updateTodo } from '../features/todos/todosSlice';
-import { Todo } from '../features/todos/types';
-import { Modal, Button, Form } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
-import DeleteConfirmModal from './DeleteConfirmModal';
+import React, { useState, useEffect } from 'react'; // Import React and necessary hooks
+import { useDispatch } from 'react-redux'; // Import useDispatch hook from react-redux
+import { removeTodo, updateTodo } from '../features/todos/todosSlice'; // Import actions to update and remove todos
+import { Todo } from '../features/todos/types';// Import Todo type
+import { Modal, Button, Form } from 'react-bootstrap'; // Import Bootstrap components
+import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
+import DeleteConfirmModal from './DeleteConfirmModal'; // Import DeleteConfirmModal component
 
+// Prop types for TodoItem component
 interface Props {
   todo: Todo;
 }
-
+// TodoItem component to display and manage individual todo items
 export default function TodoItem({ todo }: Props) {
+  // Initialise dispatch and navigate
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  // State for modals, form fields, countdown timmer, and visibility
   const [showModal, setShowModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [title, setTitle] = useState(todo.title);
@@ -25,14 +27,15 @@ export default function TodoItem({ todo }: Props) {
   const [remaining, setRemaining] = useState('');
   const [visible, setVisible] = useState(true);
 
-  // Update countdown timer
+  // Countdown timer for due date
   useEffect(() => {
     const interval = setInterval(() => {
       const now = Date.now();
       const dueTime = new Date(dueDate).getTime();
       const diffMs = dueTime - now;
-
+      
       if (diffMs > 0) {
+        // Calculate remaining time
         const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
         const diffHours = Math.floor((diffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const diffMinutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
@@ -43,7 +46,7 @@ export default function TodoItem({ todo }: Props) {
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [dueDate]);
+  }, [dueDate]); // Update every second
 
   // Handle status change + move todo between pages
   const handleStatusChange = (newStatus: Todo['status']) => {
@@ -66,11 +69,13 @@ export default function TodoItem({ todo }: Props) {
       status,
     }));
     setShowModal(false);
+    // Hide todo if moved to in-process or completed
     if (status === 'in-process' || status === 'completed') setVisible(false);
   };
-
+  // Don't render if not visible
   if (!visible) return null;
 
+  // Render the todo item
   return (
     <>
       {/* Todo Card */}

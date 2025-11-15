@@ -547,6 +547,22 @@ h1 {
   align-items: center;
 }
 
+/* White hamburger icon for dark navbar */
+.navbar-dark-toggler .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='white' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+
+/* Hamburger button for dark theme */
+.navbar-dark-toggler {
+  border: 1px solid white; /* White border */
+}
+
+/* Optional: make the toggler background transparent for a cleaner look */
+.navbar-dark-toggler {
+  background-color: transparent;
+}
+
 /* ===== Theme Colors ===== */
 
 /* Light mode */
@@ -624,7 +640,6 @@ h1 {
   background-color: #212529 !important;
   color: #ffffff !important;
 }
-
 
 
 
@@ -839,10 +854,6 @@ button:hover {
 
 
 
-
-
-
-
 /* Clean modal theme for Edit Todo */
 .clean-modal .modal-content {
   border-radius: 12px;
@@ -905,9 +916,6 @@ body {
     color: #ffffff;
   }
 }
-
-
-
 
 
 .about-page {

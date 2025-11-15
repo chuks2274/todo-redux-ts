@@ -1,22 +1,25 @@
-import React, { useState } from "react";
-import { updateProfile } from "firebase/auth";
-import { auth } from "../firebase/firebaseConfig";
+import React, { useState } from "react"; // Import React and useState hook
+import { updateProfile } from "firebase/auth"; // Import Firebase updateProfile function
+import { auth } from "../firebase/firebaseConfig"; // Import Firebase auth instance
 
+// Define props type for EditProfileModal component
 interface EditProfileModalProps {
   show: boolean;
   onClose: () => void;
   onSave: (newName: string) => void;
 }
-
+// EditProfileModal component for editting user profile
 export default function EditProfileModal({
   show,
   onClose,
   onSave,
+  // Destructure props
 }: EditProfileModalProps) {
+  // State for name input
   const [name, setName] = useState("");
-
+  // If modal is not shown, return null
   if (!show) return null;
-
+  // Handle saving profile changes
   const handleSave = async () => {
     if (auth.currentUser) {
       await updateProfile(auth.currentUser, { displayName: name });
@@ -24,7 +27,7 @@ export default function EditProfileModal({
     }
     onClose();
   };
-
+  // Render the modal
   return (
     <div className="modal-overlay">
       <div className="modal-content p-4 rounded shadow bg-white">

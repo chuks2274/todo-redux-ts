@@ -1,27 +1,30 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import TodoItem from './TodoItem';
-import type { RootState } from '../store';
-import type { Todo, TodoStatus } from '../features/todos/types';
+import React from 'react'; // Import React
+import { useSelector } from 'react-redux'; // Import useSelector hook from react-redux
+import TodoItem from './TodoItem'; // Import TodoItem component
+import type { RootState } from '../store'; // Import RootState type from the store
+import type { Todo, TodoStatus } from '../features/todos/types'; // Import Todo and TodoStatus types
 
+// Prop types for TodoList component
 interface Props {
   filterStatus?: TodoStatus;
 }
-
+// TodoList component to display a list of todos, optionally filtered by status
 export default function TodoList({ filterStatus }: Props) {
-  // Get all todos from Redux store
-  const todos: Todo[] = useSelector((state: RootState) => state.todos);
+  // Select todos from Redux store
+  const todos: Todo[] = useSelector(
+    (state: RootState) => state.todos.todos
+  );
 
   // Filter todos by status if filterStatus is provided
   const filteredTodos: Todo[] = filterStatus
     ? todos.filter(todo => todo.status === filterStatus)
     : todos;
 
-  // Create a copy before sorting to avoid mutating Redux state
+  // Sort todos by creation date (newest first)
   const sortedTodos: Todo[] = [...filteredTodos].sort(
     (a, b) => b.createdAt - a.createdAt
   );
-
+  // Render the todo list
   return (
     <ul className="todo-list list-group">
       {sortedTodos.length === 0 && (

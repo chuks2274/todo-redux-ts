@@ -1,15 +1,17 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { addTodo } from '../features/todos/todosSlice';
-import { Todo } from '../features/todos/types';
-import { v4 as uuidv4 } from 'uuid';
-import { Spinner } from 'react-bootstrap'; // 
+import React, { useState } from 'react'; // Import React and useState hook
+import { useDispatch } from 'react-redux'; // Import useDispatch to dispatch actions
+import { useNavigate } from 'react-router-dom'; //Import useNavigate for navigation
+import { addTodo } from '../features/todos/todosSlice'; // Import addTodo action
+import { Todo } from '../features/todos/types'; // Import Todo type
+import { v4 as uuidv4 } from 'uuid'; // Import uuid for unique IDs
+import { Spinner } from 'react-bootstrap'; // Import spinner for loading indicator
 
+// AddTodo component to add new todos
 export default function AddTodo() {
+  // Initialise dispatch and navigate
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  // State for task form fields, reminder settings, loading, and form visibility
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [dueDate, setDueDate] = useState('');
@@ -17,13 +19,14 @@ export default function AddTodo() {
   const [reminderUnit, setReminderUnit] = useState<'hours' | 'days'>('hours');
   const [loading, setLoading] = useState(false);
   const [showForm, setShowForm] = useState(false);
-
+  
+  // Handle form submission to add a new todo
   const handleAdd = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!title.trim() || !dueDate) return;
 
     setLoading(true);
-
+    // Create new todo object
     const newTodo: Todo = {
       id: uuidv4(),
       title,
@@ -36,9 +39,10 @@ export default function AddTodo() {
       createdAt: Date.now(),
       status: 'pending',
     };
-
+    // Simulate async operation
     await new Promise(resolve => setTimeout(resolve, 300));
-
+   
+    // Dispatch addTodo action
     dispatch(addTodo(newTodo));
 
     setTitle('');
@@ -47,7 +51,7 @@ export default function AddTodo() {
     setReminderValue(2);
     setReminderUnit('hours');
     setLoading(false);
-
+    // Navigate to peding todos page after adding
     navigate('/pending');
   };
 

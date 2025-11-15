@@ -1,9 +1,6 @@
-// firebaseConfig.ts
-
-// Import Firebase functions
-import { initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
-import { getAnalytics } from 'firebase/analytics';
+import { initializeApp } from 'firebase/app'; // Import Firebase app initialization function
+import { getAuth } from 'firebase/auth'; // Import Firebase auth function
+import { getAnalytics } from 'firebase/analytics'; // Import Firebase analytics function
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -25,5 +22,5 @@ const analytics = getAnalytics(app);
 // Initialize Firebase Auth
 export const auth = getAuth(app);
 
-// Export the app in case you need it elsewhere
+// Export the initialized Firebase app
 export default app;

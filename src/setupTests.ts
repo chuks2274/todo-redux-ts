@@ -1,6 +1,5 @@
-// src/setupTests.ts
-import '@testing-library/jest-dom';
-import 'cross-fetch/polyfill';
+import '@testing-library/jest-dom'; // Import custom jest matchers from Testing Library
+import 'cross-fetch/polyfill'; // Import fetch polyfill for testing environment
 
 // Polyfill TextEncoder/TextDecoder for Node
 import { TextEncoder, TextDecoder } from 'util';

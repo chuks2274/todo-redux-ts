@@ -1,29 +1,31 @@
-import React, { useState } from "react";
+import React, { useState } from "react"; // Import React and useState hook
 import {
   deleteUser,
   EmailAuthProvider,
   reauthenticateWithCredential,
-} from "firebase/auth";
-import { auth } from "../firebase/firebaseConfig";
+} from "firebase/auth"; // Import Firebase auth functions
+import { auth } from "../firebase/firebaseConfig"; // Import Firebase auth instance
 
+// Define props type for DeleteAccountModal component
 interface DeleteAccountModalProps {
   show: boolean;
   onClose: () => void;
   onDelete: () => void;
 }
-
+ // DeleteAccountModal component for confirming account deletion
 export default function DeleteAccountModal({
   show,
   onClose,
   onDelete,
 }: DeleteAccountModalProps) {
+  // State for password input, messages, errors, and loading status
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-
+  // If modal is not shown, return null
   if (!show) return null;
-
+  // Handle account deletion
   const handleDelete = async () => {
     const user = auth.currentUser;
     if (!user) return;
@@ -33,11 +35,11 @@ export default function DeleteAccountModal({
     setError(null);
 
     try {
-      // 🔒 Reauthenticate user before sensitive action
+      //  Reauthenticate user before sensitive action
       const credential = EmailAuthProvider.credential(user.email!, password);
       await reauthenticateWithCredential(user, credential);
 
-      // 🗑 Proceed with account deletion
+      //  Proceed with account deletion
       await deleteUser(user);
 
       setMessage("✅ Your account has been successfully deleted.");
@@ -55,10 +57,11 @@ export default function DeleteAccountModal({
       setLoading(false);
     }
   };
-
+  // Render the modal
   return (
     <div className="modal-overlay">
       <div className="modal-content p-4 rounded shadow bg-white">
+        
         <h5 className="mb-3 text-danger">Confirm Account Deletion</h5>
         <p>
           Enter your password to confirm account deletion. This action cannot be

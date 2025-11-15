@@ -1,34 +1,45 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import TodoItem from '../components/TodoItem';
-import type { RootState } from '../store';
+import React, { useState, useEffect, useMemo } from 'react'; // Import React and necessary hooks
+import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
+import { useSelector } from 'react-redux'; // Import useSelector to access Redux store
+import TodoItem from '../components/TodoItem'; // Import TodoItem component
+import type { RootState } from '../store'; // Import RootState type from the store
 
+// Number of todos to display per page
 const ITEMS_PER_PAGE = 5;
 
 export default function PendingPage() {
+  // Initialize navigation
   const navigate = useNavigate();
-  const todos = useSelector((state: RootState) =>
-    state.todos.todos
+
+  // Get all todos from Redux store
+  const todos = useSelector((state: RootState) => state.todos.todos);
+  // Memoize filtered & sorted todos
+  const pendingTodos = useMemo(() => {
+    return todos
       .filter(todo => todo.status === 'pending')
-      .sort((a, b) => b.createdAt - a.createdAt) // newest on top
-  );
-
+      .sort((a, b) => b.createdAt - a.createdAt); // newest on top
+  }, [todos]);
+  // State for current page
   const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = Math.ceil(todos.length / ITEMS_PER_PAGE);
-
+  // Calculate total pages
+  const totalPages = Math.ceil(pendingTodos.length / ITEMS_PER_PAGE);
+  // Handlers for pagination and navigation
   const handlePrev = () => setCurrentPage(prev => (prev > 1 ? prev - 1 : prev));
   const handleNext = () => setCurrentPage(prev => (prev < totalPages ? prev + 1 : prev));
   const handleGoHome = () => navigate('/');
-
+  
+  // Calculate starting index for current page
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-  const currentTodos = todos.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+  // Memoize current page slice of todos
+  const currentTodos = useMemo(() => {
+    return pendingTodos.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+  }, [pendingTodos, startIndex]);
 
   // Reset to page 1 when todos change (new todo added)
   useEffect(() => {
     setCurrentPage(1);
-  }, [todos.length]);
-
+  }, [pendingTodos.length]);
+  // Render the pending todos page
   return (
     <div className="container mt-4 d-flex flex-column align-items-center">
       <h2 className="mb-4">Pending Todos</h2>

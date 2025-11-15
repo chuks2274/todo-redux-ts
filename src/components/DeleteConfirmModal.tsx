@@ -1,18 +1,20 @@
-import React from 'react';
-import { Modal, Button } from 'react-bootstrap';
+import React from 'react'; // Import React
+import { Modal, Button } from 'react-bootstrap'; // Import modal and button from react-bootstrap
 
+// Define props type for DeleteconfirmModal component
 interface DeleteConfirmModalProps {
   show: boolean;
   onHide: () => void;
   onConfirm: () => void;
   todoTitle: string;
 }
-
+ // DeleteconfirmModal component for confirming todo deletion
 export default function DeleteConfirmModal({
   show,
   onHide,
   onConfirm,
   todoTitle,
+  // Destructure props
 }: DeleteConfirmModalProps) {
   return (
     <Modal show={show} onHide={onHide} centered className="clean-modal">

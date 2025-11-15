@@ -1,6 +1,8 @@
-import React from 'react';
+import React from 'react'; // Import React
 
+// About page component
 export default function About() {
+  // Render the about page content
   return (
     <div className="container mt-5 about-page">
       <h2 className="about-title">About This Todo App</h2>

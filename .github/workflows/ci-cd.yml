@@ -1,5 +1,5 @@
-name: CI/CD Pipeline
-
+name: CI/CD Pipeline # CI/CD Pipeline for testing, building, and deploying the app to Vercel
+# Trigger on push or pull request to main branch
 on:
   push:
     branches:
@@ -7,12 +7,12 @@ on:
   pull_request:
     branches:
       - main
-
+# Define jobs for the workflow
 jobs:
   build-and-test:
     name: Build & Test
     runs-on: ubuntu-latest
-
+# Steps to checkout code, set up Node.js, install dependencies, run tests, and build the project
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -30,13 +30,13 @@ jobs:
 
       - name: Build project
         run: npm run build
-
+# Job to deploy the built project to Vercel
   deploy-vercel:
     name: Deploy to Vercel
     runs-on: ubuntu-latest
     needs: build-and-test
     if: github.ref == 'refs/heads/main'
-
+  # Steps to checkout code, set up Node.js, install Vercel CLI, and deploy
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3

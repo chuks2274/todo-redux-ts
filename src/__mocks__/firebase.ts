@@ -1,6 +1,7 @@
 // Mock Firebase auth and Firestore
-const mockUser = { uid: '123', email: 'test@example.com', displayName: 'Test User' };
+const mockUser = { uid: '123', email: 'test@example.com', displayName: 'Test User' }; 
 
+// Mock Auth
 export const auth = {
   currentUser: mockUser,
   onAuthStateChanged: jest.fn((cb) => cb(mockUser)),

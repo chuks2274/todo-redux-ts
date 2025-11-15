@@ -1,36 +1,48 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import TodoItem from '../components/TodoItem';
-import type { RootState } from '../store';
+import React, { useState, useEffect, useMemo } from 'react'; // Import React and necessary hooks
+import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
+import { useSelector } from 'react-redux'; // Import useSelector to access Redux store
+import TodoItem from '../components/TodoItem'; // Import TodoItem component
+import type { RootState } from '../store'; // Import RootState type from the store
 
-const ITEMS_PER_PAGE = 5; // Adjust number of todos per page
+// Number of todos to display per page
+const ITEMS_PER_PAGE = 5; 
 
+// In-Process todos page component
 export default function InProcessPage() {
+  // Initialize navigation
   const navigate = useNavigate();
 
-  // Filter todos with status 'in-process' and sort newest on top
-  const todos = useSelector((state: RootState) =>
-    state.todos.todos
+  // Get all todos from Redux store
+  const todos = useSelector((state: RootState) => state.todos.todos);
+
+  // Memoize filtered + sorted todos
+  const inProcessTodos = useMemo(() => {
+    return todos
       .filter(todo => todo.status === 'in-process')
-      .sort((a, b) => b.createdAt - a.createdAt)
-  );
-
+      .sort((a, b) => b.createdAt - a.createdAt);
+  }, [todos]);
+  // State for current page
   const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = Math.max(Math.ceil(todos.length / ITEMS_PER_PAGE), 1); // Ensure at least 1
-
+  // Calculate total pages
+  const totalPages = Math.max(Math.ceil(inProcessTodos.length / ITEMS_PER_PAGE), 1);  
+  // Handlers for pagination and navigation
   const handlePrev = () => setCurrentPage(prev => (prev > 1 ? prev - 1 : prev));
   const handleNext = () => setCurrentPage(prev => (prev < totalPages ? prev + 1 : prev));
   const handleGoHome = () => navigate('/');
-
+  
+  // Calculate starting index for current page
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-  const currentTodos = todos.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+
+  // Memoize current page slice of todos
+  const currentTodos = useMemo(() => {
+    return inProcessTodos.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+  }, [inProcessTodos, startIndex]); 
 
   // Reset to page 1 when todos change (new todo added)
   useEffect(() => {
-    setCurrentPage(1);
-  }, [todos.length]);
-
+    setCurrentPage(1); 
+  }, [inProcessTodos.length]);
+  // Render the in-process todos page
   return (
     <div className="container mt-4 d-flex flex-column align-items-center">
       <h2 className="mb-4">In-Process Todos</h2>
@@ -42,7 +54,7 @@ export default function InProcessPage() {
       ))}
 
       {/* Pagination */}
-      {todos.length > ITEMS_PER_PAGE && ( // Only show if more than one page
+      {inProcessTodos.length > ITEMS_PER_PAGE && ( // Only show if more than one page
         <div className="d-flex gap-2 mt-3 align-items-center">
           <button
             className="btn btn-outline-primary"

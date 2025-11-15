@@ -1,46 +1,49 @@
-import React, { useEffect, useState } from 'react'; 
-import { Link } from 'react-router-dom';
-import { FaMoon, FaSun, FaTint } from 'react-icons/fa';
-import { auth } from '../firebase/firebaseConfig';
-import { onAuthStateChanged, signOut } from 'firebase/auth';
-import '../App.css';
+import React, { useEffect, useState } from 'react'; // Import React and necessary hooks
+import { Link } from 'react-router-dom'; // Import Link for navigation
+import { FaMoon, FaSun, FaTint } from 'react-icons/fa'; // Import icons for themes
+import { auth } from '../firebase/firebaseConfig'; // Import Firebase auth instance
+import { onAuthStateChanged, signOut } from 'firebase/auth'; // Import Firebase auth functions
+import '../App.css'; // Import global styles
 
+// Define theme types
 type Theme = 'light' | 'dark' | 'blue';
 
+// Define available themes and their corresponding icons and labels
 const themes: Theme[] = ['light', 'dark', 'blue'];
-
+// Map theme to icons
 const themeIcons: Record<Theme, any> = {
   light: <FaSun className="me-2 theme-icon" />,
   dark: <FaMoon className="me-2 theme-icon" />,
   blue: <FaTint className="me-2 theme-icon" />,
 };
-
+// Map theme to labels
 const themeLabels: Record<Theme, string> = {
   light: 'Light',
   dark: 'Dark',
   blue: 'Blue',
 };
-
+ // Navbar component
 export default function Navbar() {
+  //// State for theme, animation toggle, and current user
   const [theme, setTheme] = useState<Theme>('light');
   const [animate, setAnimate] = useState(false);
   const [user, setUser] = useState<any>(null);
 
-  // Theme initialization
+  // Load saved theme from localStorage on component mount
   useEffect(() => {
     const savedTheme = (localStorage.getItem('theme') as Theme) || 'light';
     setTheme(savedTheme);
     document.documentElement.setAttribute('data-theme', savedTheme);
-  }, []);
+  }, []); 
 
-  // Listen to auth state changes
+  // Listen for auth state changes to get current user
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, currentUser => {
       setUser(currentUser);
     });
     return () => unsubscribe();
-  }, []);
-
+  }, []); 
+  // Handle theme toggle with animation
   const handleThemeToggle = () => {
     setAnimate(true);
     const currentIndex = themes.indexOf(theme);
@@ -50,20 +53,29 @@ export default function Navbar() {
     localStorage.setItem('theme', nextTheme);
     setTimeout(() => setAnimate(false), 300);
   };
-
+  // Handle user logout
   const handleLogout = async () => {
     await signOut(auth);
   };
 
+  // Collapse navbar on link click
+  const handleNavLinkClick = () => {
+    const navbarToggler = document.querySelector('.navbar-toggler') as HTMLElement;
+    const navbarCollapse = document.querySelector('.navbar-collapse') as HTMLElement;
+    if (navbarCollapse.classList.contains('show') && navbarToggler) {
+      navbarToggler.click();
+    }
+  };
+  // Render the navbar
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-sm rounded mb-4">
       <div className="container">
         {/* Brand on the left */}
-        <span className="navbar-brand fw-bold fs-5">Professional Todo App</span>
+        <span className="navbar-brand fw-bold fs-5"> Todo App</span>
 
         {/* Hamburger button for mobile */}
         <button
-          className="navbar-toggler"
+          className={`navbar-toggler ${theme === 'dark' ? 'navbar-dark-toggler' : ''}`}
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#navbarNav"
@@ -77,46 +89,42 @@ export default function Navbar() {
         {/* Collapsible nav links + theme/auth buttons */}
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ms-auto align-items-center">
-            {/* Only show these links if user is logged in */}
             {user && (
               <>
                 <li className="nav-item">
-                  <Link to="/" className="nav-link">Home</Link>
+                  <Link to="/" className="nav-link" onClick={handleNavLinkClick}>Home</Link>
                 </li>
                 <li className="nav-item">
-                  <Link to="/pending" className="nav-link">Pending</Link>
+                  <Link to="/pending" className="nav-link" onClick={handleNavLinkClick}>Pending</Link>
                 </li>
                 <li className="nav-item">
-                  <Link to="/in-process" className="nav-link">In Process</Link>
+                  <Link to="/in-process" className="nav-link" onClick={handleNavLinkClick}>In Process</Link>
                 </li>
                 <li className="nav-item">
-                  <Link to="/completed" className="nav-link">Completed</Link>
+                  <Link to="/completed" className="nav-link" onClick={handleNavLinkClick}>Completed</Link>
                 </li>
                 <li className="nav-item me-3">
-                  <Link to="/about" className="nav-link">About</Link>
+                  <Link to="/about" className="nav-link" onClick={handleNavLinkClick}>About</Link>
                 </li>
-                {/* ✅ New Profile link */}
                 <li className="nav-item me-3">
-                  <Link to="/profile" className="nav-link fw-bold">
+                  <Link to="/profile" className="nav-link fw-bold" onClick={handleNavLinkClick}>
                     Profile
                   </Link>
                 </li>
               </>
             )}
 
-            {/* Auth Buttons */}
             {!user ? (
               <>
                 <li className="nav-item">
-                  <Link to="/login" className="nav-link">Login</Link>
+                  <Link to="/login" className="nav-link" onClick={handleNavLinkClick}>Login</Link>
                 </li>
                 <li className="nav-item">
-                  <Link to="/register" className="nav-link">Register</Link>
+                  <Link to="/register" className="nav-link" onClick={handleNavLinkClick}>Register</Link>
                 </li>
               </>
             ) : (
               <>
-                {/* Logout Button */}
                 <li className="nav-item">
                   <button
                     className="btn btn-danger btn-sm"
@@ -125,8 +133,6 @@ export default function Navbar() {
                     Logout
                   </button>
                 </li>
-
-                {/* Theme button only visible when logged in */}
                 <li className="nav-item ms-2">
                   <button
                     className={`btn btn-sm d-flex align-items-center theme-btn ${

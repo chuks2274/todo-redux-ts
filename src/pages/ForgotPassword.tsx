@@ -1,22 +1,25 @@
-import React, { useState } from 'react';
-import { sendPasswordResetEmail } from 'firebase/auth';
-import { auth } from '../firebase/firebaseConfig';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react'; // Imort React and useState hook
+import { sendPasswordResetEmail } from 'firebase/auth'; // Import Firebase function to send password reset email
+import { auth } from '../firebase/firebaseConfig'; // Import Firebase auth instance
+import { useNavigate } from 'react-router-dom'; // Import useNavigate for programmatic navigation
 
+// ForgotPassword component for resetting user password
 const ForgotPassword: React.FC = () => {
+  // State for email, messages, and errors
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  // Initialize navigation
   const navigate = useNavigate();
-
+  // Handle password reset form submission
   const handleResetPassword = async (e: React.FormEvent) => {
-    e.preventDefault();
-
+    e.preventDefault(); //Prevent default form submission behavior
+    // Basic email validation
     if (!email.trim()) {
       setError('Please enter your registered email address.');
       return;
     }
-
+    // Attempt to send password reset email
     try {
       await sendPasswordResetEmail(auth, email);
       setMessage(`✅ Password reset link sent to ${email}`);
@@ -27,7 +30,7 @@ const ForgotPassword: React.FC = () => {
       setMessage(null);
     }
   };
-
+  // Render the forgot password form
   return (
     <div
       className="d-flex justify-content-center align-items-center"

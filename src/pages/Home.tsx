@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
-import AddTodo from '../components/AddTodo';
-import { useAuth } from '../context/AuthContext';
+import React, { useState } from 'react'; // Import React and useState hook
+import AddTodo from '../components/AddTodo'; // Import AddTodo component
+import { useAuth } from '../context/AuthContext'; // Import useAuth hook from AuthContext
 
+// Home component to display welcome message and AddTodo form
 export default function Home() {
+  // Get current user from auth context
   const { user } = useAuth();
+  // State to toggle AddTodo form visibility
   const [showForm, setShowForm] = useState(false);
-
+  // Format todays's date
   const today = new Date();
   const formattedDate = today.toLocaleDateString('en-US', {
     weekday: 'long',
@@ -13,7 +16,7 @@ export default function Home() {
     day: 'numeric',
     year: 'numeric',
   });
-
+ // Render the Home page
   return (
     <div className="container mt-4 text-center">
       {user && (

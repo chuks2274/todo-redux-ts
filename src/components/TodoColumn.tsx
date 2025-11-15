@@ -1,20 +1,21 @@
-import React from 'react';
-import TodoItem from './TodoItem';
-import { useSelector } from 'react-redux';
-import type { RootState } from '../store';
-import type { Todo, TodoStatus } from '../features/todos/types';
+import React from 'react'; // Import React
+import TodoItem from './TodoItem'; // Import TodoItem component
+import { useSelector } from 'react-redux'; // Import useSelector hook from react-redux
+import type { RootState } from '../store'; // Import RootState type from the store
+import type { Todo, TodoStatus } from '../features/todos/types';// Import Todo and TodoStatus types
 
+// Prop types for TodoColumn component
 interface Props {
   status: TodoStatus;
   title: string;
 }
-
+// TodoColumn component to display todos of a specific status
 export default function TodoColumn({ status, title }: Props) {
-  // Correctly select the todos array and type it
+  // Select todos from Redux store based on status
   const todos = useSelector((state: RootState): Todo[] =>
     state.todos.todos.filter((todo: Todo) => todo.status === status)
   );
-
+  // Render the todo column
   return (
     <div className="todo-column">
       <h3>{title}</h3>

@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../firebase/firebaseConfig';
-import { useNavigate, Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react'; // Import React and necessary hooks
+import { signInWithEmailAndPassword } from 'firebase/auth'; // Import Firebase sign-in function
+import { auth } from '../firebase/firebaseConfig'; // Import Firebase auth instance
+import { useNavigate, Link } from 'react-router-dom'; // Import navigation and link from react-router-dom
 
+// Login component for user authentication
 export default function Login() {
+  // State for form fields, loading, and error messages
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
@@ -13,7 +15,7 @@ export default function Login() {
   // Validation states
   const [emailValid, setEmailValid] = useState<boolean | null>(null);
   const [passwordValid, setPasswordValid] = useState<boolean | null>(null);
-
+  // Initialize navigation
   const navigate = useNavigate();
 
   // Auto-fill email if previously remembered
@@ -25,7 +27,7 @@ export default function Login() {
     }
   }, []);
 
-  // Real-time validation
+  // validate email and password on change
   useEffect(() => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     setEmailValid(emailRegex.test(email));
@@ -33,7 +35,7 @@ export default function Login() {
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,8}$/;
     setPasswordValid(passwordRegex.test(password));
   }, [email, password]);
-
+  // Handle login form submission
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
@@ -71,7 +73,7 @@ export default function Login() {
     if (isValid === null) return 'form-control';
     return isValid ? 'form-control border-success' : 'form-control border-danger';
   };
-
+  // Render the login form
   return (
     <div
       className="d-flex justify-content-center align-items-center"

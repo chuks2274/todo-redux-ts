@@ -1,17 +1,16 @@
-// types.ts
-
-// Optional: keep TodoStatus if you want to track different statuses
+// Types for Todo items
 export type TodoStatus = 'pending' | 'in-process' | 'completed';
 
+// Interface representing a Todo item
 export interface Todo {
-  id: string;                   // Unique ID
-  title: string;                // Task title
-  description?: string;         // Optional description
-  completed: boolean;           // Whether task is completed
-  status?: TodoStatus;          // Optional status tracking
-  createdAt: number;            // Timestamp when todo was created
-  dueDate: string;              // ISO string for due date/time
-  reminderValue: number;        // Reminder value (number)
-  reminderUnit: 'hours' | 'days'; // Reminder unit
-  alertShown?: boolean;         // To avoid repeated alerts
+  id: string;                    
+  title: string;                 
+  description?: string;          
+  completed: boolean;            
+  status?: TodoStatus;           
+  createdAt: number;             
+  dueDate: string;               
+  reminderValue: number;         
+  reminderUnit: 'hours' | 'days';  
+  alertShown?: boolean;          
 }

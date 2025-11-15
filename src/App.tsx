@@ -1,21 +1,18 @@
-import React from 'react';
-import { Routes, Route } from 'react-router-dom';
-import Navbar from './components/Navbar';
+import React from 'react'; // Import React
+import { Routes, Route } from 'react-router-dom'; // Import routing components
+import Navbar from './components/Navbar'; // Import Navbar component
+import Home from './pages/Home'; // Import Home page component
+import About from './pages/about'; // Import About page component
+import Completed from './pages/completed'; // Import Completed page component
+import Pending from './pages/Pending'; // Import Pending page component
+import InProcess from './pages/InProcess'; // Import InProcess page component
+import Login from './pages/Login'; // Import Login page component
+import Register from './pages/Register'; // Import Register page component
+import ProfilePage from './components/ProfilePage'; // Import ProfilePage component
+import ForgotPassword from './pages/ForgotPassword'; // Import ForgotPassword page component
+import PrivateRoute from './auth/PrivateRoute'; // Import PrivateRoute component for protected routes
 
-// Pages
-import Home from './pages/Home';
-import About from './pages/about';
-import Completed from './pages/completed';
-import Pending from './pages/Pending';
-import InProcess from './pages/InProcess';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import ProfilePage from './components/ProfilePage'; // Added
-import ForgotPassword from './pages/ForgotPassword'; // Added
-
-// Auth
-import PrivateRoute from './auth/PrivateRoute';
-
+// Main App component
 export default function App() {
   return (
     <div className="app-container">

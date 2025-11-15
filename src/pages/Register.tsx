@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react'; 
-import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
-import { auth } from '../firebase/firebaseConfig';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react'; // Import React and necessary hooks
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'; // Import Firebase auth functions
+import { auth } from '../firebase/firebaseConfig'; // Import Firebase auth instance
+import { useNavigate } from 'react-router-dom'; // Import navigation from react-router-dom
 
+// Register component for new user sign-up
 export default function Register() {
+  // State for form fields, loading, error, and sucess messages
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -15,10 +17,11 @@ export default function Register() {
   const [nameValid, setNameValid] = useState<boolean | null>(null);
   const [emailValid, setEmailValid] = useState<boolean | null>(null);
   const [passwordValid, setPasswordValid] = useState<boolean | null>(null);
-
+  
+  // Initialize navigation
   const navigate = useNavigate();
 
-  // Real-time validation
+  // validate name, email, and password on change
   useEffect(() => {
     const trimmedName = name.trim();
     setNameValid(trimmedName.length >= 2 && trimmedName.length <= 30);
@@ -29,7 +32,7 @@ export default function Register() {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     setEmailValid(emailRegex.test(email));
   }, [name, password, email]);
-
+  // Handle registration form submission
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
@@ -54,7 +57,7 @@ export default function Register() {
 
       if (userCredential.user) {
         await updateProfile(userCredential.user, { displayName: name });
-
+        // Creating a new user object: only `name` and `email` are used for now; other fields are placeholders for future app features
         const newUser = {
           name: name,
           email: email,
@@ -64,8 +67,9 @@ export default function Register() {
           skills: [],
           profilePic: "https://via.placeholder.com/150",
         };
+        // Store user data in localStorage
         localStorage.setItem("user", JSON.stringify(newUser));
-
+        // Show success message and redirect to home
         setSuccess('✅ Account created successfully! Redirecting to home...');
         setTimeout(() => {
           navigate('/');
@@ -84,7 +88,7 @@ export default function Register() {
     if (isValid === null) return 'form-control';
     return isValid ? 'form-control border-success' : 'form-control border-danger';
   };
-
+  // Render the registration form
   return (
     <div
       className="d-flex justify-content-center align-items-center"
